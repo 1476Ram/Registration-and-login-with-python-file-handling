@@ -1,0 +1,143 @@
+def register():
+  email_id = input("Create Email_id: ")
+  pwd = input("Create Password: ")
+  pwd1 = input("Re_enter Your Password: ")
+  fp = open("mydata","r")
+  a1 = []
+  v1 = 0
+  v = []
+  for i in fp:
+    a,b = i.split(",")
+    b = b.strip()
+    c=a,b
+    v.append(a)
+    if email_id[0].isalpha():
+      if '@.' not in email_id:
+        if '@' in email_id:
+          if '.' in email_id:
+            a1.append(email_id)
+        else:
+          print("invalid username")
+          register()
+      else:
+        print("invalid username")
+        register() 
+    else:
+      print("invalid username")
+      print("Please Try Again")
+      register()
+  if len(pwd) > 5:
+    if len(pwd) < 16:
+      if pwd1!=pwd:
+        print("Password doesnot match")
+  u,j,k,l = 0,0,0,0
+  v1 = 0
+  for x in pwd:
+    if x.isdecimal():
+      u = 1
+
+    if x.isupper():
+      j = 1
+      continue
+
+    if x.islower():
+        k = 1
+        continue
+
+    if x == "@" or x == "$" or x == "_":
+        l = 1
+  if u == 1 and j == 1 and k == 1 and l == 1 :
+        v1+=1
+  else:
+    print("invalid password , Try Again")
+    register()
+  if email_id not in v:
+    v1+=1
+  else:
+    print("Username Already Exist. ")
+  if v1 == 2:
+      with open("mydata","a") as fp:
+        fp.write(email_id + "," + pwd1 + "\n")
+        print("Registration Completed")
+      reg_login_entry()
+  else:
+    
+    print("Try Again")
+    reg_login_entry()
+
+def login():
+  email_id = input("Enter Your Registered Email_id: ")
+  pwd = input("Enter Your Password: ")
+  fp = open("mydata","r")
+  q = []
+  r = []
+  for i in fp:
+    a,b = i.split(",")
+    b = b.strip()
+    q.append(a)
+    r.append(b)
+    info = dict(zip(q, r))
+  if len(email_id)>1:
+      try:
+       if info[email_id]:
+         try:
+          if pwd == info[email_id]:
+            print("Welcome u have logged in successfully")
+            print("Hi" +" "+ email_id)
+          else:
+            print("Incorrect Password, Try Again")
+            print("Please Register")
+            print("   or  ")
+            print("Select Forget Password"+ "\n" )
+            reg_login_entry()
+         except:
+           print("Invalid password for the given username. ")
+      
+       else:
+         print("Invalid username or username does not exist ")
+         print("Please Register")
+         reg_login_entry()
+      except:
+        print("username or Password doesnot exist ")
+        print("Try Again")
+        reg_login_entry()
+
+  else:
+      print("Invalid Username or Password")
+      print("Try login Again")
+      reg_login_entry()
+def for_pwd():
+  email_id = input("Enter your Email_id: ")
+  fp = open("mydata","r")
+  q = []
+  r = []
+  for i in fp:
+    a,b = i.split(",")
+    b = b.strip()
+    q.append(a)
+    r.append(b)
+    info = dict(zip(q,r))
+  if info[email_id]:
+    c = r[q.index(email_id)]
+    print("Your password is "+ " "+ c )
+    print("Try logging in Again")
+    login()
+  else:
+    print("Username doesnot exist ")
+    print("register your username ")
+    reg_login_entry()
+
+
+def reg_login_entry():
+  print("Please Select a Option: ")
+  enter = input(" Choose1:Login \n Choose2:Register \n Choose3:Forget Password \n ")
+  if enter == "1":
+    login()
+  elif enter == "2" :
+    register()
+  elif enter == "3":
+    for_pwd()
+  else:
+    print("Please Enter a Valid Option")
+    reg_login_entry()
+reg_login_entry()
